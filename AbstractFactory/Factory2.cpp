@@ -89,12 +89,18 @@ private:
 
 using PFactory = Factory<int, std::function<std::unique_ptr<Processor>()> >;
 
-const bool GetDataProcessor::isRegistered 
-	= PFactory::Register(GETDATA, []() { return std::unique_ptr<GetDataProcessor>(new GetDataProcessor); });
-const bool GetFormulaProcessor::isRegistered
-	= PFactory::Register(GETFORMULA, []() { return std::unique_ptr<GetFormulaProcessor>(new GetFormulaProcessor); });
-const bool GetEnumerationsProcessor::isRegistered
-	= PFactory::Register(GETENUMERATIONS, []() { return std::unique_ptr<GetEnumerationsProcessor>(new GetEnumerationsProcessor); });
+#define REGISTER(I,T) const bool T::isRegistered = PFactory::Register(I, []() { return std::unique_ptr<T>(new T); })
+
+// const bool GetDataProcessor::isRegistered 
+// 	= PFactory::Register(GETDATA, []() { return std::unique_ptr<GetDataProcessor>(new GetDataProcessor); });
+// const bool GetFormulaProcessor::isRegistered
+// 	= PFactory::Register(GETFORMULA, []() { return std::unique_ptr<GetFormulaProcessor>(new GetFormulaProcessor); });
+// const bool GetEnumerationsProcessor::isRegistered
+// 	= PFactory::Register(GETENUMERATIONS, []() { return std::unique_ptr<GetEnumerationsProcessor>(new GetEnumerationsProcessor); });
+
+REGISTER(GETDATA, GetDataProcessor);
+REGISTER(GETFORMULA, GetFormulaProcessor);
+REGISTER(GETENUMERATIONS, GetEnumerationsProcessor);
 
 
 PFactory factory;
